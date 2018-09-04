@@ -6,7 +6,7 @@ m = 0.5;
 g = 9.81;
 
 syms x1 x2 x3 x4 u;
-
+x = [x1 x2 x3 x4];
 %% Equações não lineares para cada estado
 % dx1 = f1, dx2 = f2, dx3 = f3, dx4 = f4
 f1 = x2;
@@ -22,8 +22,7 @@ u4 = (-m*cos(x3)/(m+M))*(M+m)/(m*L*(M+m)-m^2*(cos(x3))^2);
 uf = [u1;u2;u3;u4];
 
 
-A = double(subs(jacobian(f),[x2 x3 x4],[0 0 0])); %nao entendo pq retorna matriz 4x3
-A = [zeros(4,1) A] %adiciona coluna de x1
+A = double(subs(jacobian(f,x),[x1 x2 x3 x4],[0 0 0 0])); %nao entendo pq retorna matriz 4x3
 B = double(subs(uf,[x3 x4],[0 0]));
 C = [1 0 0 0];
 D = zeros(2,2);
