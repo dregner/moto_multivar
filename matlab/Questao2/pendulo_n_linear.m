@@ -14,7 +14,7 @@ u = v(6);
 dx1 = x2;
 dx2 = (-m*g*sin(x3)+ m*L*x4^2*cos(x3))/((M+m)-m*(cos(x3))^2) + u/((M+m)-m*(cos(x3))^2);
 dx3 = x4;
-dx4 = u*(-m*cos(x3)/(m+M))*(M+m)/(m*L*(M+m)-m^2*(cos(x3))^2) + (m*g*sin(x3)+m*L*x4^4*sin(x3))*(M+m)/(m*L*(M+m)-m^2*(cos(x3))^2);
+dx4 = u*(-m*cos(x3)/(m+M))*(M+m)/(m*L*(M+m)-m^2*(cos(x3))^2) + (m*g*sin(x3)+m*L*x2^2*sin(x3))*(M+m)/(m*L*(M+m)-m^2*(cos(x3))^2);
 
 dx = [dx1; dx2; dx3; dx4];
 end

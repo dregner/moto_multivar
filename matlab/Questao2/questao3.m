@@ -12,7 +12,7 @@ x = [x1 x2 x3 x4];
 f1 = x2;
 f2 = (-m*g*sin(x3)+ m*L*x4^2*cos(x3))/((M+m)-m*(cos(x3))^2);
 f3 = x4;
-f4 = (m*g*sin(x3)+m*L*x4^4*sin(x3))*(M+m)/(m*L*(M+m)-m^2*(cos(x3))^2);
+f4 = (m*g*sin(x3)+m*L*x2^2*sin(x3))*(M+m)/(m*L*(M+m)-m^2*(cos(x3))^2);
 f = [f1;f2;f3;f4];
 
 u1 = 0;
@@ -27,4 +27,8 @@ B = double(subs(uf,[x3 x4],[0 0]));
 C = [1 0 0 0];
 D = zeros(2,2);
 Con = ctrb(A,B); %Matriz Controlabilidade
+
+
+pd = -1;
+K = place(A,B, [pd pd-.01 pd+0.05 pd+0.02]);
  
