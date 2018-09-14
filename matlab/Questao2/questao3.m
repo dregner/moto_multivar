@@ -12,7 +12,8 @@ g = 9.81;
 syms x1 x2 x3 x4 u;
 x = [x1 x2 x3 x4];
 C0 = 0;
-x0 = [0 0 0.1 0];
+x0 = [0 0 pi/180*25 0];
+x0obs = [0; 0; pi/180*10; 0];
 %% Equações não lineares para cada estado
 % dx1 = f1, dx2 = f2, dx3 = f3, dx4 = f4
 f1 = x2;
@@ -45,26 +46,31 @@ Aa=[ A zeros(4,1);
 Ba=[B ; 0];
 
 % Verifica a controlabilidade do Sistema Aumentado
-Con = ctrb(Aa,Ba)
-vsCon = svd(Con)
+Con = ctrb(Aa,Ba);
+vsCon = svd(Con);
 
 % Verifica a observabilidade da Planta
-Obs = obsv(A,C)
-vsObs = svd(Obs)
+Obs = obsv(A,C);
+vsObs = svd(Obs);
 
-pd = -4
-Kc = place(Aa, Ba, [pd pd-0.01 pd-0.02 pd-0.05 pd+0.01])
-Kx = Kc(1,1:4)
-Km = Kc(1,5)
+pd = -4;
+Kc = place(Aa, Ba, [pd pd-0.01 pd-0.02 pd-0.05 pd+0.01]);
+Kx = Kc(1,1:4);
+Km = Kc(1,5);
 %% Observador
-x0obs = [0 ; 0; 0.1; 0]  
 
-pd = -8;
-L=place(A',C',[pd pd-0.05 pd-0.03 pd-0.04])';        % polo duplo de A-LC em s=-12     
-
+pd = -40;
+Lk=place(A',C',[pd pd-0.05 pd-0.03 pd-0.04])';        % polo duplo de A-LC em s=-12     
+rl =10^-8;
+Lk = lqr(A', C', eye(4), rl);
+Lk = Lk'
+eig(A-Lk*C)
 %% LQR
 
-Q = eye(4);
-r = 0.0001;
-R = r
-Ka = lqr(A,B,Q,R)
+Q = eye(5);
+r = 10^-3;
+R = eye(1)*r
+Ka = lqr(Aa,Ba,Q,R);
+Kx = Ka(1,1:4)
+Km = Ka(1,5)
+eig(Aa-Ka*Ba)
