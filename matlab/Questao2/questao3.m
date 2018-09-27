@@ -60,9 +60,11 @@ Km = Kc(1,5);
 %% Observador
 
 pd = -40;
-Lk=place(A',C',[pd pd-0.05 pd-0.03 pd-0.04])';        % polo duplo de A-LC em s=-12     
+L=place(A',C',[pd pd-0.05 pd-0.03 pd-0.04])';        % polo duplo de A-LC em s=-12     
 rl =10^-8;
-Lk = lqr(A', C', eye(4), rl);
+V1  =0.0001*eye(4);
+V2 = rl;
+Lk = lqr(A', C', V1, V2);
 Lk = Lk'
 eig(A-Lk*C)
 %% LQR

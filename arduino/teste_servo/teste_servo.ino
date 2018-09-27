@@ -21,7 +21,7 @@
 Servo servo;
 
 // Altere aqui o pino no qual o servo está conectado.
-const int pino_servo = 4;
+const int pino_servo = 5;
 
 /*
  * Basicamente o programa pega o número digitado
