@@ -78,6 +78,19 @@ K = Ka(:,1:4);
 % Matriz de ganho para o estado do modelo interno xm
 Km = Ka(:,5);
 
+%% Funcao transferencia malha fechada 2.3
+s = tf('s');
+
+Ae = Aa-Ba*Ka;
+Be = [B zeros(4,1);zeros(1,1) Bm];
+Ga = Ca*(s*eye(5)-Ae)^-1*Be;
+Ga = minreal(zpk(Ga))
+figure
+pzmap(Ga);
+figure
+step(Ga);
+
+
 %%
 D = [0]
 sys=ss(A,B,C,D);   % define modelo de estado
@@ -97,12 +110,12 @@ Dm = zeros(3,1);
 
 Aa = [A zeros(4,3); -Bm*C Am];
 Ba = [B; zeros(3,1)];
-Ca = [C 0];
+Ca = [C 0 0 0];
 
 pd = -1.5;
 Ka = place(Aa,Ba,[pd pd-0.025 pd-0.05 pd-0.075 pd-0.1 pd-0.125 pd-0.15]);
 r = 1;
-R = r;
+    R = r;
 Q = eye(7);
 Ka = lqr(Aa,Ba,Q,R);
 % Verificacao
@@ -113,6 +126,17 @@ K = Ka(:,1:4);
 
 % Matriz de ganho para o estado do modelo interno xm
 Km = Ka(:,5:7);
+
+%% Função de Transferencia Malha fechada 2.5
+
+Ae = Aa-Ba*Ka;
+Be = [B zeros(4,1);zeros(3,1) Bm];
+Ga = Ca*(s*eye(7)-Ae)^-1*Be;
+Ga = minreal(zpk(Ga));
+figure
+pzmap(Ga);
+figure
+step(Ga);
 
 %% Observador
 
