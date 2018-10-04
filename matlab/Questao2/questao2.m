@@ -114,8 +114,9 @@ Ca = [C 0 0 0];
 
 pd = -1.5;
 Ka = place(Aa,Ba,[pd pd-0.025 pd-0.05 pd-0.075 pd-0.1 pd-0.125 pd-0.15]);
+%%
 r = 1;
-    R = r;
+R = r;
 Q = eye(7);
 Ka = lqr(Aa,Ba,Q,R);
 % Verificacao
@@ -132,7 +133,7 @@ Km = Ka(:,5:7);
 Ae = Aa-Ba*Ka;
 Be = [B zeros(4,1);zeros(3,1) Bm];
 Ga = Ca*(s*eye(7)-Ae)^-1*Be;
-Ga = minreal(zpk(Ga));
+Ga = minreal(zpk(Ga))
 figure
 pzmap(Ga);
 figure
@@ -176,3 +177,26 @@ title('Realimentação de Estados')
 % plot(tout(1,, y1(:,2),tout,y1(:,3))
 % grid
 % title('Controlador-Observador');
+
+%%
+d = [128 448 672 560 280 84 14]
+p = [0 0 0 -2943/20000 0 -2941/200 0]
+v7 = Ba
+v6 = Aa*v7+p(7)*Ba
+v5 = Aa*v6+p(6)*Ba
+v4 = Aa*v5+p(5)*Ba
+v3 = Aa*v4+p(4)*Ba
+v2 = Aa*v3+p(3)*Ba
+v1 = Aa*v2+p(2)*Ba
+T = [v1 v2 v3 v4 v5 v6 v7]
+kb = d-p
+K = kb*T^-1
+eig(Aa-Ba*K)
+
+%%
+syms x1 x2 u
+q1 = -sin(x1)+2*x2+5*x1*x2^2;
+q2 = 10*x1^5+2*exp(x2)-2+3*cos(x1)*u;
+q = [q1;q2];
+x = [x1 x2]
+O = (jacobian(q,x))
