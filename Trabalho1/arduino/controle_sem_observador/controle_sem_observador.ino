@@ -140,8 +140,8 @@ void loop() {
   
   if (dt >= Ts) { // Loop de controle
     
-    //sem_observador();
-    observador();
+    sem_observador();
+    //observador();
 
     
     tempo_ultimo_controle = millis();
